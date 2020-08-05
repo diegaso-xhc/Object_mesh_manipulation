@@ -3,7 +3,7 @@ close all
 clc
 
 addpath('C:\Users\ge97vos\Desktop\Diego\Research\Experiment\Objects')
-obj = readObj('Tennis Ball.obj');
+obj = readObj('Videotape.obj');
 vector_switch = [3 1; 1 2; 2 3]; % 3 goes to 1, 1 goes to 2 and so weiter
 temp = obj.v;
 for i = 1: 3 % Only three dimensions to plot    
