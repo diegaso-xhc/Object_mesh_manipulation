@@ -28,8 +28,8 @@ end
 min_axes = min([min(v(:, 1)), min(v(:, 2)), min(v(:, 3))]);
 max_axes = max([max(v(:, 1)), max(v(:, 2)), max(v(:, 3))]);
 
-xlim([min_axes max_axes])
-ylim([min_axes max_axes])
-zlim([min_axes max_axes])
+% xlim([min_axes max_axes])
+% ylim([min_axes max_axes])
+% zlim([min_axes max_axes])
 pbaspect([1 1 1])
 end
