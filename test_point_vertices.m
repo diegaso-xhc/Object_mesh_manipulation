@@ -3,9 +3,8 @@ close all
 clc
 
 %% Load the mesh file and plot it 
-
 addpath('C:\Users\ge97vos\Desktop\Diego\Research\Experiment\Objects')
-obj = readObj('Wood Checker.obj');
+obj = readObj('Videotape.obj');
 vector_switch = [3 1; 1 2; 2 3]; % 3 goes to 1, 1 goes to 2 and so weiter
 temp = obj.v;
 for i = 1: 3 % Only three dimensions to plot    
@@ -19,9 +18,9 @@ hold on
 grid on
 
 %% Test contact surfaces based on a point
-x = 15;
-y = 20;
-z = 30;
+x = 100;
+y = 80;
+z = 70;
 plot3(x, y, z, '*')
 TR = triangulation(obj.f.v, obj.v);
 ID = nearestNeighbor(TR, x, y, z);
@@ -50,9 +49,9 @@ end
 trisurf([1 2 3], vertices(:, 1), vertices(:, 2), vertices(:, 3))
 plot3M(points,'*r')
 plot3M(surface_points(id_min, :),'*k')
-xlim([0 50])
-ylim([0 50])
-zlim([0 30])
+xlim([0 300])
+ylim([0 300])
+zlim([0 100])
 pbaspect([1 1 1])
 
 
