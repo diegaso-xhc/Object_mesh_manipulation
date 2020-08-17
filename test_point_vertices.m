@@ -10,7 +10,10 @@ temp = obj.v;
 for i = 1: 3 % Only three dimensions to plot    
     obj.v(:, vector_switch(i, 2)) = temp(:, vector_switch(i, 1));    
 end
-plotObj(obj)
+TR = triangulation(obj.f.v, obj.v); % Make a triangulation of the aforementioned object parameters
+h = trimesh(TR);
+h.EdgeColor = [0, 0, 0];
+% plotObj(obj) % Function to plot a mesh (own and natürlich nicht so optimal)
 xlabel('X')
 ylabel('Y')
 zlabel('Z')
@@ -22,39 +25,50 @@ x = 100;
 y = 80;
 z = 70;
 plot3(x, y, z, '*')
-TR = triangulation(obj.f.v, obj.v);
-ID = nearestNeighbor(TR, x, y, z);
-C = TR.Points(ID, :);
-[row, col] = find(obj.f.v == ID);
-plot3M = @(XYZ,varargin) plot3(XYZ(:,1),XYZ(:,2),XYZ(:,3),varargin{:});
+% TR = triangulation(obj.f.v, obj.v); % Make a triangulation of the aforementioned object parameters
+ID = nearestNeighbor(TR, x, y, z); % Find the closest vertex on this triangulation from a given point
+C = TR.Points(ID, :); % Coordinates of the closest point
+[row, col] = find(obj.f.v == ID); % Finding the triangles which are connected to the closest point
+plot3M = @(XYZ,varargin) plot3(XYZ(:,1),XYZ(:,2),XYZ(:,3),varargin{:}); % Declaring a function for plotting
 
 f = [1 2 3];
 for i = 1: length(row)
    for j = 1: 3 % For a triangular mesh
-        v(j, :) = obj.v(obj.f.v(row(i), j), :);
+        v(j, :) = obj.v(obj.f.v(row(i), j), :); % Retrieve the information from the connectivity list and take the coordinates of these points to store them in v
    end   
-   f
-   v
-   FV.faces = f;
-   FV.vertices = v;
-   points = [x,y,z];
-   [distances(i, 1), surface_points(i, :)] = point2trimesh(FV, 'QueryPoints', points);
+   FV.faces = f; % A temporal connectivity list
+   FV.vertices = v; % Adding the vertices extracted before
+   points = [x,y,z]; % Formatting the query point for the next function
+   [distances(i, 1), surface_points(i, :)] = point2trimesh(FV, 'QueryPoints', points); % Gathering the distance to the triangular surfaces connected to the closest vertex
 end
-distances=abs(distances);
-[val, id_min] = min(distances);
+distances=abs(distances); % Only interested in absolute values
+[val, id_min] = min(distances); % We get the closest triangle
+
 for i = 1: 3 % Triangular mesh
-   vertices(i, :) = obj.v(obj.f.v(row(id_min), i), :);
+   vertices(i, :) = obj.v(obj.f.v(row(id_min), i), :); % Retrieve the coordinates from the aforementioned surface
 end
 % trisurf(FV.faces,FV.vertices(:, 1),FV.vertices(:, 2),FV.vertices(:, 3))
-trisurf([1 2 3], vertices(:, 1), vertices(:, 2), vertices(:, 3))
-plot3M(points,'*r')
-plot3M(surface_points(id_min, :),'*k')
+h2 = trisurf([1 2 3], vertices(:, 1), vertices(:, 2), vertices(:, 3)); % Plot and paint the triangular surface
+h2.FaceColor = [0.2, 0.3, 0.9];
+plot3M(points,'*r') % Plot the initial point
+plot3M(surface_points(id_min, :),'*k') % Plot the projection point
 xlim([0 300])
-ylim([0 300])
-zlim([0 100])
+ylim([0 200])
+zlim([0 50])
 pbaspect([1 1 1])
 
 
+%% Find neighbor triangles from a given point
+% c_tri = (1/3)*(vertices(1,:) + vertices(2,:) + vertices(3,:)); % Centroid of the triangle
+nt = length(TR.ConnectivityList);
+for i = 1: nt
+   centroids(i, :) = (1/3)*(TR.Points(TR.ConnectivityList(i , 1), :) + ...
+       TR.Points(TR.ConnectivityList(i , 2), :) + ...
+       TR.Points(TR.ConnectivityList(i , 3), :));   
+end
+% plot3M(centroids,'*c') % Plot the centroids
 
-
+out_trn = follow_path(TR, 1500, 200, centroids, 'side');
+h3 = trisurf(TR.ConnectivityList(out_trn,:), TR.Points(:, 1), TR.Points(:, 2), TR.Points(:, 3));
+h3.FaceColor = [0.3, 0.7, 0.9];
 
