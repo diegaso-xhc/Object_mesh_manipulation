@@ -52,23 +52,38 @@ h2 = trisurf([1 2 3], vertices(:, 1), vertices(:, 2), vertices(:, 3)); % Plot an
 h2.FaceColor = [0.2, 0.3, 0.9];
 plot3M(points,'*r') % Plot the initial point
 plot3M(surface_points(id_min, :),'*k') % Plot the projection point
-xlim([0 300])
-ylim([0 200])
-zlim([0 50])
+xlim([0 220])
+ylim([0 220])
+zlim([0 220])
 pbaspect([1 1 1])
 
 
-%% Find neighbor triangles from a given point
-% c_tri = (1/3)*(vertices(1,:) + vertices(2,:) + vertices(3,:)); % Centroid of the triangle
+%% Find a path from triangle 1 to triangl 2
 nt = length(TR.ConnectivityList);
-for i = 1: nt
+for i = 1: nt % In this for loop, we calculate the centroids of all the triangles on the mesh
    centroids(i, :) = (1/3)*(TR.Points(TR.ConnectivityList(i , 1), :) + ...
        TR.Points(TR.ConnectivityList(i , 2), :) + ...
        TR.Points(TR.ConnectivityList(i , 3), :));   
 end
 % plot3M(centroids,'*c') % Plot the centroids
 
-out_trn = follow_path(TR, 1500, 200, centroids, 'side');
-h3 = trisurf(TR.ConnectivityList(out_trn,:), TR.Points(:, 1), TR.Points(:, 2), TR.Points(:, 3));
-h3.FaceColor = [0.3, 0.7, 0.9];
+% out_trn = follow_path(TR, 200, 1500, centroids, 'side');
+% for i = 1: length(out_trn)
+%    plot_triangles(TR, [out_trn(i)]); 
+% end
+% h3 = trisurf(TR.ConnectivityList(out_trn,:), TR.Points(:, 1), TR.Points(:, 2), TR.Points(:, 3));
+% h3 = trisurf(TR.ConnectivityList(out_trn,:), TR.Points(:, 1), TR.Points(:, 2), TR.Points(:, 3));
+% h3.FaceColor = [0.3, 0.7, 0.9];
+% plot_triangles(TR, [140])
+% plot_triangles(TR, [141])
+% plot_triangles(TR, [142])
+% plot_triangles(TR, [237])
+% plot_triangles(TR, [1500])
 
+%% Find the area between a set of points on the mesh
+t = [1 20 400 420 150];
+plot3M(centroids(t,:),'*c') % Plot the centroids
+
+out_trn = find_area(TR, t, centroids, 'side');
+h4 = trisurf(TR.ConnectivityList(out_trn,:), TR.Points(:, 1), TR.Points(:, 2), TR.Points(:, 3));
+h4.FaceColor = [0.1, 0.2, 0.9];
