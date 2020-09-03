@@ -3,7 +3,7 @@ close all
 clc
 
 %% Load the mesh file and plot it 
-addpath('C:\Users\ge97vos\Desktop\Diego\Research\Experiment\Objects')
+% addpath('C:\Users\ge97vos\Desktop\Diego\Research\Experiment\Objects')
 obj = readObj('Videotape.obj');
 vector_switch = [3 1; 1 2; 2 3]; % 3 goes to 1, 1 goes to 2 and so weiter
 temp = obj.v;
@@ -65,9 +65,10 @@ for i = 1: nt % In this for loop, we calculate the centroids of all the triangle
        TR.Points(TR.ConnectivityList(i , 2), :) + ...
        TR.Points(TR.ConnectivityList(i , 3), :));   
 end
+str = 'side';
 % plot3M(centroids,'*c') % Plot the centroids
 % t = [10 70];
-% out_trn = follow_path(TR, t(1), t(2), centroids, 'side');
+% out_trn = follow_path(TR, t(1), t(2), centroids, str);
 % for i = 1: length(out_trn)
 %    plot_triangles(TR, [out_trn(i)]); 
 % end
@@ -83,15 +84,15 @@ end
 % plot_triangles(TR, [1500])
 
 %% Find the area between a set of points on the mesh
-t = [1 20 50 393 412 450];
+t = [410 115 1120 830];
 % t = [1 20 50 450];
 plot3M(centroids(t,:),'*c') % Plot the centroids
 
-out_trn = find_area(TR, t, centroids, 'side');
-h4 = trisurf(TR.ConnectivityList(out_trn,:), TR.Points(:, 1), TR.Points(:, 2), TR.Points(:, 3));
-h4.FaceColor = [0.1, 0.2, 0.9];
+% % out_trn = find_area(TR, t, centroids, str);
+% % h4 = trisurf(TR.ConnectivityList(out_trn,:), TR.Points(:, 1), TR.Points(:, 2), TR.Points(:, 3));
+% % h4.FaceColor = [0.1, 0.2, 0.9];
 
-out_trn = select_area(TR, t, centroids, 'side');
+out_trn = select_area(TR, t, centroids, str);
 h5 = trisurf(TR.ConnectivityList(out_trn,:), TR.Points(:, 1), TR.Points(:, 2), TR.Points(:, 3));
 h5.FaceColor = [0.03, 0.6, 0.2];
 
