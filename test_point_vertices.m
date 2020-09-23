@@ -4,14 +4,23 @@ clc
 
 %% Load the mesh file and plot it 
 % addpath('C:\Users\ge97vos\Desktop\Diego\Research\Experiment\Objects')
-obj = readObj('Finger.obj');
-vector_switch = [3 1; 1 2; 2 3]; % 3 goes to 1, 1 goes to 2 and so weiter
-temp = obj.v;
-for i = 1: 3 % Only three dimensions to plot    
-    obj.v(:, vector_switch(i, 2)) = temp(:, vector_switch(i, 1));    
-end
-TR = triangulation(obj.f.v, obj.v); % Make a triangulation of the aforementioned object parameters
-h = trimesh(TR);
+% obj = readObj('Finger.obj');
+% vector_switch = [3 1; 1 2; 2 3]; % 3 goes to 1, 1 goes to 2 and so weiter
+% temp = obj.v;
+% for i = 1: 3 % Only three dimensions to plot    
+%     obj.v(:, vector_switch(i, 2)) = temp(:, vector_switch(i, 1));    
+% end
+% TR = triangulation(obj.f.v, obj.v); % Make a triangulation of the aforementioned object parameters
+% h = trimesh(TR);
+% h.EdgeColor = [0, 0, 0];
+% % plotObj(obj) % Function to plot a mesh (own and natürlich nicht so optimal)
+% xlabel('X')
+% ylabel('Y')
+% zlabel('Z')
+% hold on
+% grid on
+load('objects_db.mat');
+h = trimesh(svVar{8, 1});
 h.EdgeColor = [0, 0, 0];
 % plotObj(obj) % Function to plot a mesh (own and natürlich nicht so optimal)
 xlabel('X')
@@ -19,7 +28,14 @@ ylabel('Y')
 zlabel('Z')
 hold on
 grid on
-
+h = trimesh(svVar{9, 1});
+h.EdgeColor = [0, 0, 0];
+% plotObj(obj) % Function to plot a mesh (own and natürlich nicht so optimal)
+% xlabel('X')
+% ylabel('Y')
+% zlabel('Z')
+% hold on
+% grid on
 %% Test contact surfaces based on a point
 x = 100;
 y = 80;
