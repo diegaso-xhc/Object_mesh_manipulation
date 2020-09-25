@@ -69,23 +69,31 @@ clc
 %% Testing the contact surface plotting function
 load('objects_db.mat'); % Import meshes from file to the workspace
 finger = svVar{8, 1};
-temp_p = finger.Points;
 
+temp_p = finger.Points;
 temp_p = rotPoints(temp_p, 90, 1);
 temp_p = rotPoints(temp_p, -10, 3);
 temp_p(:, 1) = temp_p(:, 1) + 20;
-temp_p(:, 2) = temp_p(:, 2) + 45;
+temp_p(:, 2) = temp_p(:, 2) + 43;
 fings{1} = triangulation(finger.ConnectivityList, temp_p);
 
 temp_p = finger.Points;
-temp_p(:, 2) = temp_p(:, 2) + 60;
+temp_p(:, 2) = temp_p(:, 2) + 66;
 fings{2} = triangulation(finger.ConnectivityList, temp_p);
 
 temp_p = finger.Points;
 temp_p(:, 2) = temp_p(:, 2) - 20;
-temp_p(:, 3) = temp_p(:, 3) + 40;
+temp_p(:, 3) = temp_p(:, 3) + 42;
 fings{3} = triangulation(finger.ConnectivityList, temp_p);
-% 
+
+temp_p = finger.Points;
+temp_p = rotPoints(temp_p, -90, 2);
+temp_p(:, 1) = temp_p(:, 1) + 100;
+temp_p(:, 2) = temp_p(:, 2) + 40;
+temp_p(:, 3) = temp_p(:, 3) + 82;
+fings{4} = triangulation(finger.ConnectivityList, temp_p);
+
+
 % temp_p = finger.Points;
 % temp_p(:, 2) = temp_p(:, 2) - 10;
 % temp_p(:, 1) = temp_p(:, 1) + 0;
@@ -93,8 +101,8 @@ fings{3} = triangulation(finger.ConnectivityList, temp_p);
 
 object = cell(1, 1);
 object{1} = svVar{9, 1};
-th = 3;
+th = 1.0;
 
-showContacts(object, fings, th, 'in') 
+showContacts(object, fings, th, 'near') 
 
 %% In this section we choose the object we want to test
