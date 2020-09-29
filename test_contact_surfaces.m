@@ -68,6 +68,7 @@ clc
 
 %% Testing the contact surface plotting function
 load('objects_db.mat'); % Import meshes from file to the workspace
+
 finger = svVar{8, 1};
 
 temp_p = finger.Points;
@@ -101,8 +102,14 @@ fings{4} = triangulation(finger.ConnectivityList, temp_p);
 
 object = cell(1, 1);
 object{1} = svVar{9, 1};
-th = 1.0;
+th = 3.0;
+
+% obj = readObj('Glass_test.obj');
+% object{1} = triangulation(obj.f.v, obj.v);
+
+% plotNormals(object{1});
 
 showContacts(object, fings, th, 'near') 
+
 
 %% In this section we choose the object we want to test

@@ -91,17 +91,18 @@ for i = 1: n1
                 vec{j} = [vec{j}, v{t, :}];
             end
             vec{j} = unique(vec{j});  
+            % group points
+            y = groupContacts(obj{i}, vec{j});
+            
+            
             subplot(1, 2, 1)
             % The following lines plot the triangles of interest
             pl(j) = trisurf(obj{1}.ConnectivityList(vec{j},:), obj{1}.Points(:, 1), obj{1}.Points(:, 2), obj{1}.Points(:, 3));
-            pl(j).FaceColor = [0.25, 0.2, 0.9];
+            pl(j).FaceColor = [0.47, 0.129, 0.18];
             plot3(p{i,j}(:, 1),p{i,j}(:, 2),p{i,j}(:, 3), '*r');
             axis('equal')
         end
-        %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-        
-        
-        
+        %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%       
         
         subplot(1, 2, 2)
         % The following lines plot the fingers
@@ -113,13 +114,16 @@ for i = 1: n1
         plot3(p{i,j}(:, 1),p{i,j}(:, 2),p{i,j}(:, 3), '*r');
     end
     subplot(1, 2, 1)
+    VNorm = vertexNormal(obj{i});
+    quiver3(obj{i}.Points(:,1),obj{i}.Points(:,2),obj{i}.Points(:,3), ...
+        VNorm(:,1),VNorm(:,2),VNorm(:,3),0.5,'Color','b');
     hold off
     
     subplot(1, 2, 2)
     % The following lines plot the objects
     g(i) = trimesh(obj{i});
     g(i).EdgeColor = [0.32, 0.64, 0.74];
-    g(i).EdgeAlpha = 1;
+    g(i).EdgeAlpha = 1;  
     axis('equal')
     hold off
 end
