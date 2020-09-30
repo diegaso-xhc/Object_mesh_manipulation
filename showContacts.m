@@ -28,6 +28,7 @@ for i = 1: n1
     h(i) = trimesh(obj{i});
     h(i).EdgeColor = [0, 0, 0];
     hold on
+    y = {{}};
     for j = 1: n2
         if strcmp(type_op, 'near')
             neigh = 2;
@@ -85,15 +86,16 @@ for i = 1: n1
         % triangles depending on the given set of points of interest
         lv = length(v);
         vec = {};
+        
         if lv~= 0
             vec{j} = v{1, :};
             for t = 2: lv
                 vec{j} = [vec{j}, v{t, :}];
             end
             vec{j} = unique(vec{j});  
-            % group points
-            y = groupContacts(obj{i}, vec{j});
+            % Group the contact points
             
+            y{i}{j} = groupContacts(obj{i}, vec{j});           
             
             subplot(1, 2, 1)
             % The following lines plot the triangles of interest
