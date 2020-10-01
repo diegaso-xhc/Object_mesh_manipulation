@@ -23,4 +23,4 @@ T = [1 2 3; 2 3 6; 4 5 6; 6 7 10; 8 9 10; 11 17 15; 12 13 14];
 TR = triangulation(T,P);
 triplot(TR);
 vec = 1:length(T);
-y = groupContacts(TR, vec)
+y = groupContacts_v2(TR, vec)

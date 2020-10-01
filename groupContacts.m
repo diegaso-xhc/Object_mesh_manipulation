@@ -8,38 +8,63 @@ tmp_ed = unique([ed(:,1);ed(:,2)]); % We get all of the points of interest from 
 y = {}; % Resulting contact regions
 i = 0;
 j = 0;
+flag = 0;
 while 1
     i = i + 1; % Number of contact region    
     y{i}(1) = tmp_ed(1); % First element on the vector containing all of the points we are concerned with
     while 1
-        j = j + 1; % Number of point on the i-th contact region
-        if y{i}(j) == 3148
-           cda=4; 
+        
+        if j == length(y{i}) % If this is the last element on the contact surface, we break
+            j = 0;
+            break;
         end
-        tmp = find(ed(:, 1) == y{i}(j)); % Find all of the connections of the corresponding point       
-        if ~isempty(tmp)           
-            y{i} = unique([y{i} ed(tmp,2)']); % If there are connections, we attach said connection points to the contact surface vector
+        
+        if j == 114
+            ads = 4;
+        end
+        if ismember(14092,y{1})
+            ads = 4;
+        end
+        
+        j = j + 1; % Number of point on the i-th contact region
+        tmp = find(ed(:, 1) == y{i}(j)); % Find all of the connections of the corresponding point
+        if ~isempty(tmp)
+            tmp = tmp(ismember(ed(tmp,1), tmp_ed));
+            if ~isempty(tmp)
+                y{i} = unique([y{i} ed(tmp,2)']); % If there are connections, we attach said connection points to the contact surface vector
+            end            
             [a, b] = find(ed(:, 2) == ed(tmp, 2)'); % We attach all of the subsequent connections from the connections of the given point
-            if ~isempty(a)                
-                y{i} = unique([y{i} ed(a,1)']); % We attach all of the elements on the first column of edges, just in case they were not included before
-            end    
+            if ~isempty(a)
+                a = a(ismember(ed(a,1), tmp_ed));
+                if ~isempty(a)
+                    y{i} = unique([y{i} ed(a,1)']); % We attach all of the elements on the first column of edges, just in case they were not included before
+                end
+            end
             
             tmp = find(ed(:, 2) == y{i}(j)); % In case a connection element is not on the first column of the edge matrix, we doble check on the second column
-            if ~isempty(tmp) 
-                y{i} = unique([y{i} ed(tmp,1)']); % If there are connections, we attach said connection points to the contact surface vector
-            end           
+            if ~isempty(tmp)                
+                tmp = tmp(ismember(ed(tmp,2), tmp_ed));
+                if ~isempty(tmp)
+                    y{i} = unique([y{i} ed(tmp,1)']); % If there are connections, we attach said connection points to the contact surface vector
+                end
+            end
         else
             tmp = find(ed(:, 2) == y{i}(j)); % In case a connection element is not on the first column of the edge matrix, we doble check on the second column
             if ~any(ismember(ed(tmp,1), y{i})) % If there are not elements on the first column of the given point which belong already to the contact surface, 
                                                 % we assume this is the end of the surface
                 j = 0; % Reseting of count
-                break; % Break current surface contact               
+                flag = 0;
+                break; % Break current surface contact   
+                
             else                                
                 if ~isempty(tmp)
-                    y{i} = unique([y{i} ed(tmp,2)']); % We add the elements to the contact surface vector and filter them out
+                    tmp = tmp(ismember(ed(tmp,2), tmp_ed));
+                    if ~isempty(tmp)
+                        y{i} = unique([y{i} ed(tmp,2)']); % We add the elements to the contact surface vector and filter them out
+                    end
                 end  
                 if j == length(y{i}) % If this is the last element on the contact surface, we break
-                    j = 0;
+                    j = 0;  
                     break;
                 end
             end

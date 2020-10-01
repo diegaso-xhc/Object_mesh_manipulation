@@ -93,15 +93,14 @@ for i = 1: n1
                 vec{j} = [vec{j}, v{t, :}];
             end
             vec{j} = unique(vec{j});  
-            % Group the contact points
-            
-            y{i}{j} = groupContacts(obj{i}, vec{j});           
+            % Group the contact points          
+            y{i}{j} = groupContacts_v2(obj{i}, vec{j});           
             
             subplot(1, 2, 1)
             % The following lines plot the triangles of interest
-            pl(j) = trisurf(obj{1}.ConnectivityList(vec{j},:), obj{1}.Points(:, 1), obj{1}.Points(:, 2), obj{1}.Points(:, 3));
-            pl(j).FaceColor = [0.47, 0.129, 0.18];
-            plot3(p{i,j}(:, 1),p{i,j}(:, 2),p{i,j}(:, 3), '*r');
+%             pl(j) = trisurf(obj{1}.ConnectivityList(vec{j},:), obj{1}.Points(:, 1), obj{1}.Points(:, 2), obj{1}.Points(:, 3));
+%             pl(j).FaceColor = [0.47, 0.129, 0.18];
+%             plot3(p{i,j}(:, 1),p{i,j}(:, 2),p{i,j}(:, 3), '*r');
             axis('equal')
         end
         %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%       
@@ -119,6 +118,7 @@ for i = 1: n1
     VNorm = vertexNormal(obj{i});
     quiver3(obj{i}.Points(:,1),obj{i}.Points(:,2),obj{i}.Points(:,3), ...
         VNorm(:,1),VNorm(:,2),VNorm(:,3),0.5,'Color','b');
+    plotContactRegions(obj{i}, y)
     hold off
     
     subplot(1, 2, 2)

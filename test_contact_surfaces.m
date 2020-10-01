@@ -96,6 +96,11 @@ fings{4} = triangulation(finger.ConnectivityList, temp_p);
 
 
 % temp_p = finger.Points;
+% temp_p(:, 2) = temp_p(:, 2) - 20;
+% temp_p(:, 3) = temp_p(:, 3) + 42;
+% fings{1} = triangulation(finger.ConnectivityList, temp_p);
+
+% temp_p = finger.Points;
 % temp_p(:, 2) = temp_p(:, 2) - 10;
 % temp_p(:, 1) = temp_p(:, 1) + 0;
 % fings{1} = triangulation(finger.ConnectivityList, temp_p);
