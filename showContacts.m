@@ -77,6 +77,13 @@ for i = 1: n1
             in_d{i, j, 1} = in_d{i, j, 1}(indices); % We filter the points depending on these points
             in_d{i, j, 2} = in_d{i, j, 2}(indices); % We filter the points depending on these points
             p{i, j} = obj{i}.Points(indices, :); % We add the contact points to the aforementioned cell p
+            
+%             [in_d{i, j, 1}, in_d{i, j, 2}] = inShape(shp_obj{j}, fings{j}.Points); % We check if there are points on the fingers which are inside the fingers
+%             indices = find(in_d{i, j, 1} == 1); % We get the indices of the points which are inside
+%             in_d{i, j, 1} = in_d{i, j, 1}(indices); % We filter the points depending on these points
+%             in_d{i, j, 2} = in_d{i, j, 2}(indices); % We filter the points depending on these points
+%             p{i, j} = obj{i}.Points(indices, :); % We add the contact points to the aforementioned cell p
+            
         end
         
         %%%%%%%%%% Get triangles related to the points of interest%%%%%%%%%
@@ -94,8 +101,13 @@ for i = 1: n1
             end
             vec{j} = unique(vec{j});  
             % Group the contact points          
-            y{i}{j} = groupContacts_v2(obj{i}, vec{j});           
-            
+%             y{i}{j} = groupContacts_v3(obj{i}, vec{j}, indices);
+
+            tmp_y = groupContacts_v3(obj{i}, vec{j}, indices);
+            for k = 1: length(tmp_y)
+                y{i}{j}{k} = ContactSurface(obj{i}, tmp_y{k});                
+            end          
+
             subplot(1, 2, 1)
             % The following lines plot the triangles of interest
 %             pl(j) = trisurf(obj{1}.ConnectivityList(vec{j},:), obj{1}.Points(:, 1), obj{1}.Points(:, 2), obj{1}.Points(:, 3));
@@ -107,18 +119,16 @@ for i = 1: n1
         
         subplot(1, 2, 2)
         % The following lines plot the fingers
-        k(j) = trimesh(fings{j});
-        k(j).EdgeColor = [0, 0, 0];
-        k(j).EdgeAlpha = 0.2;
-        k(j).FaceAlpha = 0.1;
+        k_im(j) = trimesh(fings{j});
+        k_im(j).EdgeColor = [0, 0, 0];
+        k_im(j).EdgeAlpha = 0.2;
+        k_im(j).FaceAlpha = 0.1;
         hold on
         plot3(p{i,j}(:, 1),p{i,j}(:, 2),p{i,j}(:, 3), '*r');
     end
+    y = filterContacts(y, n1, n2);
     subplot(1, 2, 1)
-    VNorm = vertexNormal(obj{i});
-    quiver3(obj{i}.Points(:,1),obj{i}.Points(:,2),obj{i}.Points(:,3), ...
-        VNorm(:,1),VNorm(:,2),VNorm(:,3),0.5,'Color','b');
-    plotContactRegions(obj{i}, y)
+    plotContactRegions(y)
     hold off
     
     subplot(1, 2, 2)
@@ -129,4 +139,5 @@ for i = 1: n1
     axis('equal')
     hold off
 end
+
 end

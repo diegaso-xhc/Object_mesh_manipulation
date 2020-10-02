@@ -1,4 +1,4 @@
-function y = groupContacts_v2(obj, vec)
+function y = groupContacts_v3(obj, vec, ind)
 % This function allows us to group the contact surfaces on groups.
 % Basically, a set of triangles is received and this function checks
 % which triangles are connected to one another and group them together.
@@ -20,7 +20,7 @@ while 1
         if any(I2)
            y{i} = unique([y{i} ed(find(I2 == 1), 1)']); % We take the corresponding elements on the complementary index, in this case 1
         end
-        if ~any(I1) && ~any(I2) % If there are no more combinations [1 0] or [0 1], it means that either all of the elements are taken and the contact surface is complete
+        if ~any(I1) && ~any(I2) % If there are no more combinations [1 0] or [0 1], it means that either all of the elements are taken and the contact surface is complete           
            break; 
         end        
     end
@@ -28,8 +28,14 @@ while 1
     loc(loc == 0) = []; % We gather the locations where repeated elements might be
     tmp_ed(loc) = []; % We delete this elements so we can generate surface contacts with the remaining points
     if isempty(tmp_ed) % If after deleting the points from a contact surface, the vector is empty, it means we have finished grouping all of the points.
+        l = length(y);
+        for j = 1: l
+            y{j} = y{j}(find(ismember(y{j}, ind) == 1)); % We make sure we only consider the points we need and not the ones of the triangles around them
+        end        
         i = 0;
         break;
     end
 end
+
+
 end

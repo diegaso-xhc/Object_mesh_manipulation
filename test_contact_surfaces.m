@@ -79,7 +79,7 @@ temp_p(:, 2) = temp_p(:, 2) + 43;
 fings{1} = triangulation(finger.ConnectivityList, temp_p);
 
 temp_p = finger.Points;
-temp_p(:, 2) = temp_p(:, 2) + 66;
+temp_p(:, 2) = temp_p(:, 2) + 60;
 fings{2} = triangulation(finger.ConnectivityList, temp_p);
 
 temp_p = finger.Points;
@@ -114,7 +114,7 @@ th = 3.0;
 
 % plotNormals(object{1});
 
-showContacts(object, fings, th, 'near') 
+showContacts(object, fings, th, 'in') 
 
 
 %% In this section we choose the object we want to test
