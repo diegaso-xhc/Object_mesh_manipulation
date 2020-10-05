@@ -1,4 +1,5 @@
 function y = filterContacts(x, nobj, nfgs)
+y = {{}};
 for i = 1: nobj
     for j = 1: nfgs
         lc = length(x{i}{j});

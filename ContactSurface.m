@@ -13,8 +13,8 @@ classdef ContactSurface < handle
             obj.p = o.Points(t, :);
             obj.t = t;
             obj.vnorm = vertexNormal(o, t');
-            obj.m_vnorm = mean(obj.vnorm);
-            obj.mp = mean(obj.p);            
+            obj.m_vnorm = mean(obj.vnorm, 1);
+            obj.mp = mean(obj.p, 1);            
         end
         function plotPoints(obj, boolean)            
             if boolean

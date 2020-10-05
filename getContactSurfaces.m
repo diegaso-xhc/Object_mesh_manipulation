@@ -1,4 +1,4 @@
-function showContacts(obj, fings, th, type_op)
+function y = getContactSurfaces(obj, fings, th, type_op)
 % This function receives triangulations or cells of triangulations. Then it
 % plots or returns the contact regions on the object, depending on the
 % fingers and their positions with respect to the object and a given
@@ -53,36 +53,12 @@ for i = 1: n1
                 p{i, j} = obj{i}.Points(in_d{i, j, 1}, :); % We add the contact points to the aforementioned cell p
                 indices = in_d{i, j, 1}; % This is important to later find the triangles connected to a given point
             end                                
-                
-%             [in_d{i, j, 1}, in_d{i, j, 2}] = knnsearch(obj{i}.Points, fings{j}.Points, 'K', 2); % We calculate the nearest neighbors on the object to the fingers            
-%             in_d{i, j, 1} = [in_d{i, j, 1}(:, 1); in_d{i, j, 1}(:, 2)];            
-%             in_d{i, j, 2} = [in_d{i, j, 2}(:, 1); in_d{i, j, 2}(:, 2)];
-%             in_d{i, j, 1} = in_d{i, j, 1}(find(in_d{i, j, 2} < th)); % Given a certain threshold, we remove the points which are too far away
-%             in_d{i, j, 2} = in_d{i, j, 2}(find(in_d{i, j, 2} < th)); % Given a certain threshold, we remove the points which are too far away            
-%             [in_d{i, j, 1}, tempa, tempc] = unique(in_d{i, j, 1});           
-%             in_d{i, j, 2} = in_d{i, j, 2}(tempa, :);            
-%             p{i, j} = obj{i}.Points(in_d{i, j, 1}, :); % We add the contact points to the aforementioned cell p
-%             indices = in_d{i, j, 1}; % This is important to later find the triangles connected to a given point 
-
-%             
-%             [in_d{i, j, 1}, in_d{i, j, 2}] = nearestNeighbor(shp_obj{i}, fings{j}.Points); % We calculate the nearest neighbors on the object to the fingers
-%             in_d{i, j, 1} = in_d{i, j, 1}(find(in_d{i, j, 2} < th)); % Given a certain threshold, we remove the points which are too far away
-%             in_d{i, j, 2} = in_d{i, j, 2}(find(in_d{i, j, 2} < th)); % Given a certain threshold, we remove the points which are too far away
-%             p{i, j} = obj{i}.Points(in_d{i, j, 1}, :); % We add the contact points to the aforementioned cell p
-%             indices = in_d{i, j, 1}; % This is important to later find the triangles connected to a given point
-
         elseif strcmp(type_op, 'in')
             [in_d{i, j, 1}, in_d{i, j, 2}] = inShape(shp_fings{j}, obj{i}.Points); % We check if there are points on the object which are inside the fingers
             indices = find(in_d{i, j, 1} == 1); % We get the indices of the points which are inside
             in_d{i, j, 1} = in_d{i, j, 1}(indices); % We filter the points depending on these points
             in_d{i, j, 2} = in_d{i, j, 2}(indices); % We filter the points depending on these points
             p{i, j} = obj{i}.Points(indices, :); % We add the contact points to the aforementioned cell p
-            
-%             [in_d{i, j, 1}, in_d{i, j, 2}] = inShape(shp_obj{j}, fings{j}.Points); % We check if there are points on the fingers which are inside the fingers
-%             indices = find(in_d{i, j, 1} == 1); % We get the indices of the points which are inside
-%             in_d{i, j, 1} = in_d{i, j, 1}(indices); % We filter the points depending on these points
-%             in_d{i, j, 2} = in_d{i, j, 2}(indices); % We filter the points depending on these points
-%             p{i, j} = obj{i}.Points(indices, :); % We add the contact points to the aforementioned cell p
         elseif strcmp(type_op, 'both')
             neigh = 2;
             for t = 1: neigh
@@ -128,9 +104,6 @@ for i = 1: n1
                 vec{j} = [vec{j}, v{t, :}];
             end
             vec{j} = unique(vec{j});  
-            % Group the contact points          
-%             y{i}{j} = groupContacts_v3(obj{i}, vec{j}, indices);
-
             tmp_y = groupContacts_v3(obj{i}, vec{j}, indices);
             for k = 1: length(tmp_y)
                 y{i}{j}{k} = ContactSurface(obj{i}, tmp_y{k});                
@@ -145,8 +118,7 @@ for i = 1: n1
         else
             y{i}{j} = [];
         end
-        %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%       
-        
+        %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%      
         subplot(1, 2, 2)
         % The following lines plot the fingers
         k_im(j) = trimesh(fings{j});
