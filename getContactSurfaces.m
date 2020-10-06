@@ -22,12 +22,6 @@ end
 in_d = cell(n1, n2, 2); % This is a cell which will contain the information on the nearest points and the distances from the object, given a threshold
 p = cell(n1, n2); % A cell containing the contact points between the each object and the fingers
 for i = 1: n1
-    figure(i); % These plots can be arranged accordingly. Initially there will be two plots (one with the objects and contact surfaces and the second one
-    % with the same info plus the fingers)
-    subplot(1, 2, 1)
-    h(i) = trimesh(obj{i});
-    h(i).EdgeColor = [0, 0, 0];
-    hold on
     y = {{}};
     for j = 1: n2
         if strcmp(type_op, 'near')
@@ -84,8 +78,7 @@ for i = 1: n1
                 [in_d{i, j, 1}, in_d{i, j, 2}] = inShape(shp_fings{j}, obj{i}.Points); % We check if there are points on the object which are inside the fingers
                 indices = find(in_d{i, j, 1} == 1); % We get the indices of the points which are inside
                 in_d{i, j, 1} = in_d{i, j, 1}(indices); % We filter the points depending on these points
-                in_d{i, j, 2} = in_d{i, j, 2}(indices); % We filter the points depending on these points
-                
+                in_d{i, j, 2} = in_d{i, j, 2}(indices); % We filter the points depending on these points                
                 indices = unique([indices; indices_tmp]);
                 p{i, j} = obj{i}.Points(indices, :); % We add the contact points to the aforementioned cell p          
         end
@@ -107,43 +100,13 @@ for i = 1: n1
             tmp_y = groupContacts_v3(obj{i}, vec{j}, indices);
             for k = 1: length(tmp_y)
                 y{i}{j}{k} = ContactSurface(obj{i}, tmp_y{k});                
-            end          
-
-            subplot(1, 2, 1)
-            % The following lines plot the triangles of interest
-%             pl(j) = trisurf(obj{1}.ConnectivityList(vec{j},:), obj{1}.Points(:, 1), obj{1}.Points(:, 2), obj{1}.Points(:, 3));
-%             pl(j).FaceColor = [0.47, 0.129, 0.18];
-%             plot3(p{i,j}(:, 1),p{i,j}(:, 2),p{i,j}(:, 3), '*r');
-            axis('equal')
+            end
         else
             y{i}{j} = [];
         end
-        %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%      
-        subplot(1, 2, 2)
-        % The following lines plot the fingers
-        k_im(j) = trimesh(fings{j});
-        k_im(j).EdgeColor = [0, 0, 0];
-        k_im(j).EdgeAlpha = 0.2;
-        k_im(j).FaceAlpha = 0.1;
-        hold on
-        plot3(p{i,j}(:, 1),p{i,j}(:, 2),p{i,j}(:, 3), '*r');
+        %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%              
     end
-    y = filterContacts_v2(y, n1, n2, obj{i});
-    subplot(1, 2, 1)
-    plotContactRegions(y)
-    hold off
-    
-    subplot(1, 2, 2)
-    % The following lines plot the objects
-    g(i) = trimesh(obj{i});
-    g(i).EdgeColor = [0.32, 0.64, 0.74];
-    g(i).EdgeAlpha = 1;  
-    axis('equal')
-    hold off
-    xlabel('X')
-    ylabel('Y')
-    zlabel('Z')
-    
+    y = filterContacts_v2(y, n1, n2, obj{i});         
 end
 
 end

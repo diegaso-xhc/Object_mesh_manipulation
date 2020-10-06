@@ -119,13 +119,20 @@ temp_p(:, 1) = temp_p(:, 1) - 120;
 object{1} = triangulation(object{1}.ConnectivityList, temp_p);
 th = 2.0;
 
+
+
 % obj = readObj('Glass_test.obj');
 % object{1} = triangulation(obj.f.v, obj.v);
 
 % plotNormals(object{1});
 
 % showContacts(object, fings, th, 'both') 
-y = getContactSurfaces(object, fings, th, 'both')
+y = getContactSurfaces(object, fings, th, 'both');
+ob = ObjectInfo(object{1});
+% ob.plotObject(1);
+plotManipulation(object, y, fings)
+%plotContactRegions(y)
+%plotManipulation(ob, y, fings)
 
 
 %% In this section we choose the object we want to test
