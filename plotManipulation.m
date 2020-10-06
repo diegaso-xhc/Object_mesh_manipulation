@@ -1,4 +1,4 @@
-function plotManipulation(object, y, fingers)
+function plotManipulation(object, y, fingers, yf)
 % This function allows us to plot the interaction between a given object,
 % the given hand structure and the contact surfaces which were previously
 % found.
@@ -14,15 +14,17 @@ for i = 1: lfgs
 end
 for i = 1: lob    
    subplot(lob, 2, 2*i - 1)
-   ob{i}.plotObject(1);
-   plotContactRegions(y)   
+   ob{i}.plotObject(1, [0.32, 0.64, 0.74]);   
+   plotContactRegions_v2(yf{i}, [rand rand rand])
    axis('equal')
+   view([45 25])
    grid on
    
    subplot(lob, 2, 2*i)
-   ob{i}.plotObject(1)
-   plotContactRegions(y)
+   ob{i}.plotObject(1, [0.32, 0.64, 0.74])   
+   plotContactRegions_v2(y{i}, [1 0 0])
    axis('equal')
+   view([45 25])
    grid on
    
    for j = 1: lfgs        

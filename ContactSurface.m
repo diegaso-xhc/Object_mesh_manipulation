@@ -16,12 +16,12 @@ classdef ContactSurface < handle
             obj.m_vnorm = mean(obj.vnorm, 1);
             obj.mp = mean(obj.p, 1);            
         end
-        function plotPoints(obj, boolean)            
+        function plotPoints(obj, boolean, col_vec)            
             if boolean
                 hold on
-                plot3(obj.p(:, 1), obj.p(:, 2), obj.p(:, 3), '*', 'Color', [rand,rand,rand]);
+                plot3(obj.p(:, 1), obj.p(:, 2), obj.p(:, 3), '*', 'Color', col_vec);
             else
-                plot3(obj.p(:, 1), obj.p(:, 2), obj.p(:, 3), '*', 'Color', [rand,rand,rand]);
+                plot3(obj.p(:, 1), obj.p(:, 2), obj.p(:, 3), '*', 'Color', col_vec);
                 hold off
             end            
         end

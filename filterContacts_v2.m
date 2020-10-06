@@ -4,8 +4,9 @@ function y = filterContacts_v2(x, nobj, nfgs, obj)
 % surfaces from the same finger which point on different directions, it is
 % assumed that one of these surfaces was misidentified. 
 y = {{}};
-cg = mean(obj.Points, 1); % Center of gravity of the object
+
 for i = 1: nobj
+    cg = mean(obj{i}.Points, 1); % Center of gravity of the object
     for j = 1: nfgs
         lc = length(x{i}{j}); % Number of contacts on a given object and finger
         if lc > 1

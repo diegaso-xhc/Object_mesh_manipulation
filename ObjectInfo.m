@@ -10,11 +10,11 @@ classdef ObjectInfo < handle
             obj.p = o.Points;
             obj.cnn = o.ConnectivityList;            
         end
-        function plotObject(obj, boolean)            
+        function plotObject(obj, boolean, col_vec)            
             if boolean
                 hold on
                 h = trimesh(obj.ob);
-                h.EdgeColor = [0.32, 0.64, 0.74];        
+                h.EdgeColor = col_vec;        
                 h.FaceAlpha = 1;
                 h.EdgeAlpha = 0.8;
                 axis('equal')
@@ -24,7 +24,7 @@ classdef ObjectInfo < handle
                 zlabel('Z')                
             else
                 h = trimesh(obj.ob);
-                h.EdgeColor = [0.32, 0.64, 0.74];
+                h.EdgeColor = col_vec;
                 h.FaceAlpha = 1;
                 h.EdgeAlpha = 0.8;
                 axis('equal')

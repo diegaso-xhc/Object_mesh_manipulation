@@ -113,9 +113,9 @@ fings{5} = triangulation(finger.ConnectivityList, temp_p);
 % fings{1} = triangulation(finger.ConnectivityList, temp_p);
 
 object = cell(1, 1);
-object{1} = svVar{5, 1};
+object{1} = svVar{9, 1};
 temp_p = object{1}.Points;
-temp_p(:, 1) = temp_p(:, 1) - 120;
+% temp_p(:, 1) = temp_p(:, 1) - 120;
 object{1} = triangulation(object{1}.ConnectivityList, temp_p);
 th = 2.0;
 
@@ -127,12 +127,13 @@ th = 2.0;
 % plotNormals(object{1});
 
 % showContacts(object, fings, th, 'both') 
-y = getContactSurfaces(object, fings, th, 'both');
+[yf y] = getContactSurfaces(object, fings, th, 'both');
 ob = ObjectInfo(object{1});
 % ob.plotObject(1);
-plotManipulation(object, y, fings)
+
 %plotContactRegions(y)
 %plotManipulation(ob, y, fings)
 
 
 %% In this section we choose the object we want to test
+plotManipulation(object, y, fings, yf)

@@ -1,4 +1,4 @@
-function y = getContactSurfaces(obj, fings, th, type_op)
+function [yf, y] = getContactSurfaces(obj, fings, th, type_op)
 % This function receives triangulations or cells of triangulations. Then it
 % plots or returns the contact regions on the object, depending on the
 % fingers and their positions with respect to the object and a given
@@ -21,8 +21,8 @@ for i = 1: n2
 end
 in_d = cell(n1, n2, 2); % This is a cell which will contain the information on the nearest points and the distances from the object, given a threshold
 p = cell(n1, n2); % A cell containing the contact points between the each object and the fingers
-for i = 1: n1
-    y = {{}};
+y = {{}};
+for i = 1: n1    
     for j = 1: n2
         if strcmp(type_op, 'near')
             neigh = 2;
@@ -106,7 +106,7 @@ for i = 1: n1
         end
         %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%              
     end
-    y = filterContacts_v2(y, n1, n2, obj{i});         
+           
 end
-
+yf = filterContacts_v2(y, n1, n2, obj);  
 end
