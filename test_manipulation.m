@@ -25,9 +25,9 @@ fings{3} = triangulation(finger.ConnectivityList, temp_p);
 
 temp_p = finger.Points;
 temp_p = rotPoints(temp_p, -90, 2);
-temp_p(:, 1) = temp_p(:, 1) + 133;
-temp_p(:, 2) = temp_p(:, 2) + 20;
-temp_p(:, 3) = temp_p(:, 3) + 125;
+temp_p(:, 1) = temp_p(:, 1) + 89;
+temp_p(:, 2) = temp_p(:, 2) + 25;
+temp_p(:, 3) = temp_p(:, 3) + 60;
 fings{4} = triangulation(finger.ConnectivityList, temp_p);
 
 temp_p = finger.Points;
@@ -66,11 +66,7 @@ th = 2.0;
 
 % showContacts(object, fings, th, 'both') 
 [yf y] = getContactSurfaces(object, fings, th, 'both');
-ob = ObjectInfo(object{1});
-% ob.plotObject(1);
-
-%plotContactRegions(y)
-%plotManipulation(ob, y, fings)
+% [yf, y] = getContactSurfacesFingers(object, fings, th, 'both')
 
 
 %% In this section we choose the object we want to test

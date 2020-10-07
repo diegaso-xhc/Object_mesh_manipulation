@@ -1,4 +1,4 @@
-function [yf, y] = getContactSurfaces(obj, fings, th, type_op)
+function [yf, y] = getContactSurfacesFingers(obj, fings, th, type_op)
 % This function receives triangulations or cells of triangulations. Then it
 % plots or returns the contact regions on the object, depending on the
 % fingers and their positions with respect to the object and a given
@@ -27,7 +27,7 @@ for i = 1: n1
         if strcmp(type_op, 'near')
             neigh = 2;
             for t = 1: neigh
-                [in_d{i, j, 1}, in_d{i, j, 2}] = knnsearch(obj{i}.Points, fings{j}.Points, 'K', neigh); % We calculate the nearest neighbors on the object to the fingers
+                [in_d{i, j, 1}, in_d{i, j, 2}] = knnsearch(fings{j}.Points, obj{i}.Points, 'K', neigh); % We calculate the nearest neighbors on the object to the fingers
                 % the following if statement allows us to add all of the
                 % k-nearest neighbors to a single vector for further
                 % processing
@@ -44,19 +44,19 @@ for i = 1: n1
                 in_d{i, j, 2} = in_d{i, j, 2}(find(in_d{i, j, 2} < th)); % Given a certain threshold, we remove the points which are too far away
                 [in_d{i, j, 1}, tempa, tempc] = unique(in_d{i, j, 1}); % Gathering he unique vector and further using the indices from it
                 in_d{i, j, 2} = in_d{i, j, 2}(tempa, :);
-                p{i, j} = obj{i}.Points(in_d{i, j, 1}, :); % We add the contact points to the aforementioned cell p
+                p{i, j} = fings{j}.Points(in_d{i, j, 1}, :); % We add the contact points to the aforementioned cell p
                 indices = in_d{i, j, 1}; % This is important to later find the triangles connected to a given point
             end                                
         elseif strcmp(type_op, 'in')
-            [in_d{i, j, 1}, in_d{i, j, 2}] = inShape(shp_fings{j}, obj{i}.Points); % We check if there are points on the object which are inside the fingers
+            [in_d{i, j, 1}, in_d{i, j, 2}] = inShape(shp_obj{i}, fings{j}.Points); % We check if there are points on the object which are inside the fingers
             indices = find(in_d{i, j, 1} == 1); % We get the indices of the points which are inside
             in_d{i, j, 1} = in_d{i, j, 1}(indices); % We filter the points depending on these points
             in_d{i, j, 2} = in_d{i, j, 2}(indices); % We filter the points depending on these points
-            p{i, j} = obj{i}.Points(indices, :); % We add the contact points to the aforementioned cell p
+            p{i, j} = fings{j}.Points(indices, :); % We add the contact points to the aforementioned cell p
         elseif strcmp(type_op, 'both')
             neigh = 2;
             for t = 1: neigh
-                [in_d{i, j, 1}, in_d{i, j, 2}] = knnsearch(obj{i}.Points, fings{j}.Points, 'K', neigh); % We calculate the nearest neighbors on the object to the fingers
+                [in_d{i, j, 1}, in_d{i, j, 2}] = knnsearch(fings{j}.Points, obj{i}.Points, 'K', neigh); % We calculate the nearest neighbors on the object to the fingers
                 % the following if statement allows us to add all of the
                 % k-nearest neighbors to a single vector for further
                 % processing
@@ -75,16 +75,16 @@ for i = 1: n1
                 in_d{i, j, 2} = in_d{i, j, 2}(tempa, :);
                 indices_tmp = in_d{i, j, 1}; % This is important to later find the triangles connected to a given point
             end               
-                [in_d{i, j, 1}, in_d{i, j, 2}] = inShape(shp_fings{j}, obj{i}.Points); % We check if there are points on the object which are inside the fingers
+                [in_d{i, j, 1}, in_d{i, j, 2}] = inShape(shp_obj{i}, fings{j}.Points); % We check if there are points on the object which are inside the fingers
                 indices = find(in_d{i, j, 1} == 1); % We get the indices of the points which are inside
                 in_d{i, j, 1} = in_d{i, j, 1}(indices); % We filter the points depending on these points
                 in_d{i, j, 2} = in_d{i, j, 2}(indices); % We filter the points depending on these points                
                 indices = unique([indices; indices_tmp]);
-                p{i, j} = obj{i}.Points(indices, :); % We add the contact points to the aforementioned cell p          
+                p{i, j} = fings{j}.Points(indices, :); % We add the contact points to the aforementioned cell p          
         end
         
         %%%%%%%%%% Get triangles related to the points of interest%%%%%%%%%
-        v = vertexAttachments(obj{i}, indices); % returns the IDs of the triangles or tetrahedra attached to the vertices specified in indices.
+        v = vertexAttachments(fings{j}, indices); % returns the IDs of the triangles or tetrahedra attached to the vertices specified in indices.
         % The vertex IDs in indices are the row numbers of the corresponding vertices in obj.Points.
         % The following code lines allow us to get a unique set of
         % triangles depending on the given set of points of interest
@@ -97,9 +97,9 @@ for i = 1: n1
                 vec{j} = [vec{j}, v{t, :}];
             end
             vec{j} = unique(vec{j});  
-            tmp_y = groupContacts_v3(obj{i}, vec{j}, indices);
+            tmp_y = groupContacts_v3(fings{j}, vec{j}, indices);
             for k = 1: length(tmp_y)
-                y{i}{j}{k} = ContactSurface(obj{i}, tmp_y{k});                
+                y{i}{j}{k} = ContactSurface(fings{i}, tmp_y{k});                
             end
         else
             y{i}{j} = [];
@@ -108,5 +108,5 @@ for i = 1: n1
     end
            
 end
-yf = filterContacts_v3(y, n1, n2, obj, fings);  
+yf = filterContacts_v2(y, n1, n2, obj);  
 end

@@ -1,4 +1,4 @@
-function y = filterContacts_v2(x, nobj, nfgs, obj)
+function y = filterContacts_v3(x, nobj, nfgs, obj, fgs)
 % This function filters the contact surfaces depending on their orientation
 % with respect to the object where they appear. If there are two contact
 % surfaces from the same finger which point on different directions, it is
@@ -8,6 +8,7 @@ y = {{}};
 for i = 1: nobj
     cg = mean(obj{i}.Points, 1); % Center of gravity of the object
     for j = 1: nfgs
+        cg_f = mean(fgs{j}.Points, 1); % Center of gravity of each finger
         lc = length(x{i}{j}); % Number of contacts on a given object and finger
         if lc > 1
            tmp = 1:lc;
@@ -16,18 +17,17 @@ for i = 1: nobj
            lco = size(co, 1);           
            for k = 1: lco
                if dot(x{i}{j}{co(k, 1)}.m_vnorm, x{i}{j}{co(k, 2)}.m_vnorm) <= -0.8 % Check whether the mean normal of the two contact surfaces point on opposite directions
-%                    if length(x{i}{j}{co(k, 1)}.p) > length(x{i}{j}{co(k, 2)}.p)
-%                        tmp_co(k, 2) = 0;
-%                    elseif length(x{i}{j}{co(k, 1)}.p) == length(x{i}{j}{co(k, 2)}.p)
-%                        tmp_co(k, 2) = 0;
+%                    if dot(x{i}{j}{co(k, 1)}.mp - cg, x{i}{j}{co(k, 1)}.m_vnorm) >= 0 % Check whether or not the contact surfaces point in different directions from the center of the object or not                       
+%                        tmp_co(k, 2) = 0;                   
 %                    else
 %                        tmp_co(k, 1) = 0;
 %                    end
-                   if dot(x{i}{j}{co(k, 1)}.mp - cg, x{i}{j}{co(k, 1)}.m_vnorm) >= 0 % Check whether or not the contact surfaces point in different directions from the center of the object or not                       
-                       tmp_co(k, 2) = 0;                   
+                   if dot(x{i}{j}{co(k, 1)}.mp - cg_f, x{i}{j}{co(k, 1)}.m_vnorm) >= 0 % Check whether or not the contact surfaces point in different directions from the center of the object or not                       
+                       tmp_co(k, 1) = 0;                   
                    else
-                       tmp_co(k, 1) = 0;
+                       tmp_co(k, 2) = 0;
                    end
+
                end               
            end           
            to_del = co(tmp_co == 0);
