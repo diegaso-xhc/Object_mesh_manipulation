@@ -38,31 +38,29 @@ temp_p(:, 2) = temp_p(:, 2) + 30;
 temp_p(:, 3) = temp_p(:, 3) + 105;
 fings{5} = triangulation(finger.ConnectivityList, temp_p);
 
-
-
 object{1} = svVar{17, 1};
 temp_p = object{1}.Points;
 % temp_p(:, 1) = temp_p(:, 1) - 120;
 object{1} = triangulation(object{1}.ConnectivityList, temp_p);
 
-% object{2} = svVar{5, 1};
-% temp_p = object{2}.Points;
+object{2} = svVar{5, 1};
+temp_p = object{2}.Points;
+temp_p(:, 1) = temp_p(:, 1) - 120;
+object{2} = triangulation(object{2}.ConnectivityList, temp_p);
+
+object{3} = svVar{9, 1};
+temp_p = object{3}.Points;
 % temp_p(:, 1) = temp_p(:, 1) - 120;
-% object{2} = triangulation(object{2}.ConnectivityList, temp_p);
-% 
-% object{3} = svVar{17, 1};
-% temp_p = object{3}.Points;
-% % temp_p(:, 1) = temp_p(:, 1) - 120;
-% object{3} = triangulation(object{3}.ConnectivityList, temp_p);
+object{3} = triangulation(object{3}.ConnectivityList, temp_p);
 
 th = 2.0;
-
-
 
 % obj = readObj('Glass_test.obj');
 % object{1} = triangulation(obj.f.v, obj.v);
 
 % plotNormals(object{1});
+
+%% Get contact surfaces
 
 % showContacts(object, fings, th, 'both') 
 [yf y] = getContactSurfaces(object, fings, th, 'both');
@@ -71,3 +69,6 @@ th = 2.0;
 
 %% In this section we choose the object we want to test
 plotManipulation(object, y, fings, yf)
+
+%% Find and plot finger normal
+% plotNormals(fings{1})

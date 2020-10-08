@@ -18,14 +18,14 @@ for i = 1: lob
    plotContactRegions_v2(yf{i}, [rand rand rand])
    axis('equal')
    view([45 25])
-   grid on
+%    grid on
    
    subplot(lob, 2, 2*i)
    ob{i}.plotObject(1, [0.32, 0.64, 0.74])   
    plotContactRegions_v2(y{i}, [1 0 0])
    axis('equal')
    view([45 25])
-   grid on
+%    grid on
    
    for j = 1: lfgs        
         subplot(lob, 2, 2*i)
