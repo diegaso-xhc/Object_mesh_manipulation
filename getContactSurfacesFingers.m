@@ -99,7 +99,7 @@ for i = 1: n1
             vec{j} = unique(vec{j});  
             tmp_y = groupContacts_v3(fings{j}, vec{j}, indices);
             for k = 1: length(tmp_y)
-                y{i}{j}{k} = ContactSurface(fings{i}, tmp_y{k});                
+                y{i}{j}{k} = ContactSurface(fings{j}, tmp_y{k});                
             end
         else
             y{i}{j} = [];
@@ -108,5 +108,6 @@ for i = 1: n1
     end
            
 end
-yf = filterContacts_v2(y, n1, n2, obj);  
+yf = y;
+% yf = filterContacts_v2(y, n1, n2, obj);  
 end
