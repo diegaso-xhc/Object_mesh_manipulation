@@ -17,18 +17,21 @@ fings{1} = triangulation(finger.ConnectivityList, temp_p);
 temp_p = finger.Points;
 temp_p(:, 2) = temp_p(:, 2) + 60;
 fings{2} = triangulation(finger.ConnectivityList, temp_p);
+% fings{1} = triangulation(finger.ConnectivityList, temp_p);
 
 temp_p = finger.Points;
 temp_p(:, 2) = temp_p(:, 2) - 20;
 temp_p(:, 3) = temp_p(:, 3) + 42;
 fings{3} = triangulation(finger.ConnectivityList, temp_p);
+% fings{1} = triangulation(finger.ConnectivityList, temp_p);
 
 temp_p = finger.Points;
 temp_p = rotPoints(temp_p, -90, 2);
-temp_p(:, 1) = temp_p(:, 1) + 89;
+temp_p(:, 1) = temp_p(:, 1) + 105;
 temp_p(:, 2) = temp_p(:, 2) + 25;
-temp_p(:, 3) = temp_p(:, 3) + 60;
+temp_p(:, 3) = temp_p(:, 3) + 100;
 fings{4} = triangulation(finger.ConnectivityList, temp_p);
+% fings{1} = triangulation(finger.ConnectivityList, temp_p);
 
 temp_p = finger.Points;
 temp_p = rotPoints(temp_p, 180, 1);
@@ -37,6 +40,7 @@ temp_p(:, 1) = temp_p(:, 1) + 70;
 temp_p(:, 2) = temp_p(:, 2) + 30;
 temp_p(:, 3) = temp_p(:, 3) + 105;
 fings{5} = triangulation(finger.ConnectivityList, temp_p);
+% fings{1} = triangulation(finger.ConnectivityList, temp_p);
 
 object{1} = svVar{9, 1};
 temp_p = object{1}.Points;
@@ -63,6 +67,7 @@ th = 2.0;
 %% Get contact surfaces
 
 % showContacts(object, fings, th, 'both') 
+warning('off','MATLAB:triangulation:PtsNotInTriWarnId')
 [yf y] = getContactSurfaces(object, fings, th, 'both');
 % [yf, y] = getContactSurfacesFingers(object, fings, th, 'both')
 

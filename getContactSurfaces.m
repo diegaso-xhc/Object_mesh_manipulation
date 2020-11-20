@@ -109,4 +109,5 @@ for i = 1: n1
            
 end
 yf = filterContacts_v3(y, n1, n2, obj, fings);  
+% yf = y;
 end
