@@ -42,6 +42,11 @@ temp_p(:, 3) = temp_p(:, 3) + 105;
 fings{5} = triangulation(finger.ConnectivityList, temp_p);
 % fings{1} = triangulation(finger.ConnectivityList, temp_p);
 
+for i = 1: length(fings)
+   fings 
+end
+
+
 object{1} = svVar{9, 1};
 temp_p = object{1}.Points;
 % temp_p(:, 1) = temp_p(:, 1) - 120;
