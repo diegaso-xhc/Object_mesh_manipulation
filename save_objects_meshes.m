@@ -16,7 +16,7 @@ for i = 1: n
     end
     svVar{i, 1} = triangulation(obj.f.v, obj.v); % Make a triangulation of the aforementioned object parameters
     svVar{i, 2} = filename;
-    svVar{i, 3} = i; % This is the number of 
+    svVar{i, 3} = i; % This is the identification number on the list
     i
 end
 save('objects_db.mat', 'svVar')
